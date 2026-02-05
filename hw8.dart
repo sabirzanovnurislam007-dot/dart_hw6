@@ -1,4 +1,5 @@
-import 'dart:math
+import 'dart:math';
+
 class RpgGame {
   static int roundNumber = 0;
   static Random random = Random();
