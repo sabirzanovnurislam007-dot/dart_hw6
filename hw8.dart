@@ -15,6 +15,7 @@ class RpgGame {
       Lucky(180, 15, 'Lucky'),
       Witcher(250, 0, 'Witcher'),
       Thor(230, 18, 'Thor'),
+      Ludoman(200, 10, 'Ludoman'),
     ];
 
     while (boss.isAlive() && heroes.any((h) => h.isAlive())) {
@@ -174,6 +175,31 @@ class Thor extends Hero {
     if (RpgGame.random.nextBool()) {
       boss.isStunned = true;
       print('Thor stunned the boss!');
+    }
+  }
+}
+class Ludoman extends Hero {
+  Ludoman(int health, int damage, String name)
+      : super(health, damage, name);
+
+  @override
+  void applySuperPower(Boss boss, List<Hero> heroes) {
+    if (!isAlive()) return;
+
+    int dice1 = RpgGame.random.nextInt(6) + 1;
+    int dice2 = RpgGame.random.nextInt(6) + 1;
+
+    if (dice1 == dice2) {
+      boss.health -= dice1 * dice2;
+    } else {
+      List<Hero> aliveHeroes =
+          heroes.where((h) => h.isAlive() && h != this).toList();
+
+      if (aliveHeroes.isNotEmpty) {
+        Hero randomHero =
+            aliveHeroes[RpgGame.random.nextInt(aliveHeroes.length)];
+        randomHero.health -= dice1 + dice2;
+      }
     }
   }
 }
